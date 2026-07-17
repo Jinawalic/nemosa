@@ -15,7 +15,7 @@ export const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose })
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white w-full max-w-lg rounded-xl shadow-xl overflow-hidden transform transition-all scale-100 max-h-[90vh] flex flex-col">
+      <div className="bg-white w-full max-w-lg rounded-xl overflow-hidden transform transition-all scale-100 max-h-[90vh] flex flex-col">
         {/* Header */}
         <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-emerald-600 text-white">
           <h3 className="text-xl font-bold">Alumni Registration</h3>
@@ -59,6 +59,17 @@ export const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose })
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Phone Number</label>
               <input type="tel" required className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm" placeholder="+234..." />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Location</label>
+              <input type="text" required className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm" placeholder="Software Engineer" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Upload Passport</label>
+              <input type="file" required className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm" placeholder="+234..." />
             </div>
           </div>
 

@@ -122,7 +122,7 @@ export const Members = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12 text-center md:text-left">
-          <h1 className="text-4xl md:text-5xl font-bold text-emerald-950 mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-emerald-950 mb-4">
             Our Alumni Members
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl">
@@ -135,7 +135,7 @@ export const Members = () => {
           {membersData.map((member) => (
             <div
               key={member.id}
-              className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 group"
+              className="bg-white rounded-lg overflow-hidden transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 group"
             >
               {/* Image */}
               <div className="relative overflow-hidden bg-gray-200 aspect-square">

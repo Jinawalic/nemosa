@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from './ui/Button';
-import { MapPin, ArrowUpRight, X } from 'lucide-react';
+import { MapPin, ArrowUpRight, X, Cake } from 'lucide-react';
 import Link from 'next/link';
 
 // Define a type for your member data
@@ -136,57 +136,118 @@ export const MemberScroll = () => {
         </Button>
       </div>
 
-      {/* MemberDetailsModal Popup Window Layout */}
-      {selectedMember && (
+        {/* MemberDetailsModal Popup Window Layout */}
+        {selectedMember && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl relative border border-gray-100 animate-scale-up">
+            <div className="bg-white w-full max-w-2xl rounded-xl overflow-hidden transform transition-all scale-100 max-h-[90vh] flex flex-col relative border border-gray-100">
             
-            {/* Close action overlay button */}
-            <button 
-              onClick={() => setSelectedMember(null)}
-              className="absolute top-3 right-3 z-10 bg-black/40 hover:bg-black/60 text-white rounded-full p-1.5 transition-colors cursor-pointer"
-            >
-              <X className="w-4 h-4" />
-            </button>
+            {/* Header Banner */}
+            <div className="relative bg-gradient-to-r from-emerald-600 to-emerald-700 h-18 md:h-20 flex-shrink-0 w-full">
+                <button 
+                onClick={() => setSelectedMember(null)}
+                className="absolute top-4 right-4 z-10 bg-white/20 hover:bg-white/30 text-white rounded-full p-2 transition-colors cursor-pointer"
+                >
+                <X className="w-6 h-6" />
+                </button>
 
-            {/* Modal Image Header */}
-            <div className="relative h-56 w-full bg-emerald-950">
-              <img 
-                src={selectedMember.image} 
-                alt={selectedMember.name} 
-                className="w-full h-full object-cover"
-              />
-              <span className="absolute bottom-4 left-4 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-md shadow-md">
-                Class of {selectedMember.class}
-              </span>
+                {/* Profile Image */}
+                <div className="absolute left-6 -bottom-14 md:-bottom-16 z-10">
+                <img
+                    src={selectedMember.image}
+                    alt={selectedMember.name}
+                    className="w-28 h-28 md:w-32 md:h-32 rounded-xl border-4 border-white object-cover"
+                />
+                </div>
             </div>
 
-            {/* Modal Bio Details content block */}
-            <div className="p-6 text-left">
-              <h3 className="text-xl font-bold text-gray-900 mb-1">{selectedMember.name}</h3>
-              <p className="text-sm text-emerald-600 font-semibold mb-4">{selectedMember.role}</p>
-              
-              <div className="flex items-center gap-2 text-gray-600 text-sm border-t border-gray-100 pt-4 mb-6">
-                <MapPin className="w-4 h-4 text-gray-400" />
-                <span>Based in {selectedMember.location}</span>
-              </div>
+            {/* Body Section */}
+            <div className="pt-16 md:pt-20 pb-6 overflow-y-auto flex-1 text-left">
+                <div className="px-6">
+                
+                {/* Name & Title */}
+                <div className="mb-6">
+                    <h3 className="text-2xl md:text-3xl font-bold text-emerald-950 mb-1">
+                    {selectedMember.name}
+                    </h3>
+                    {(selectedMember as any).nickname && (
+                    <p className="text-emerald-600 font-semibold italic text-sm">
+                        Known as "{(selectedMember as any).nickname}"
+                    </p>
+                    )}
+                </div>
 
-              <div className="flex gap-3 justify-end">
+                {/* Quick Info Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 pb-6 border-b border-gray-200">
+                    {/* Profession */}
+                    <div className="flex items-start gap-3">
+                    <div className="mt-1 flex-shrink-0 text-emerald-600">💼</div> 
+                    <div>
+                        <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">Profession</p>
+                        <p className="text-gray-900 font-medium">
+                        {(selectedMember as any).profession || selectedMember.role}
+                        </p>
+                    </div>
+                    </div>
+
+                    {/* Graduation */}
+                    <div className="flex items-start gap-3">
+                    <div className="mt-1 flex-shrink-0 text-emerald-600">📅</div>
+                    <div>
+                        <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">Graduation</p>
+                        <p className="text-gray-900 font-medium">Class of {selectedMember.class}</p>
+                    </div>
+                    </div>
+
+                    {/* Location */}
+                    <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-emerald-600 mt-1 flex-shrink-0" />
+                    <div>
+                        <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">Location</p>
+                        <p className="text-gray-900 font-medium">{selectedMember.location}</p>
+                    </div>
+                    </div>
+
+                    {/* Birthday */}
+                    <div className="flex items-start gap-3">
+                    <Cake className="w-5 h-5 text-emerald-600 mt-1 flex-shrink-0" />
+                    <div>
+                        <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">Birthday</p>
+                        <p className="text-gray-900 font-medium">
+                        {(selectedMember as any).dateOfBirth 
+                            ? new Date((selectedMember as any).dateOfBirth).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+                            : "October 14"}
+                        </p>
+                    </div>
+                    </div>
+                </div>
+
+                {/* About Bio Section - Explicitly fallback to generic description text if bio string isn't present */}
+                <div>
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-3">About</h3>
+                    <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                    {(selectedMember as any).bio || (selectedMember as any).about || "No bio description provided yet for this alumnus profile."}
+                    </p>
+                </div>
+                
+                </div>
+            </div>
+
+            {/* Sticky Bottom Actions Bar */}
+            <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex justify-end gap-3 flex-shrink-0">
                 <button 
-                  onClick={() => setSelectedMember(null)}
-                  className="px-4 py-2 border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors text-sm font-medium rounded-xl cursor-pointer"
+                onClick={() => setSelectedMember(null)}
+                className="px-6 py-2 border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors text-sm font-medium rounded-xl cursor-pointer"
                 >
-                  Close
+                Close
                 </button>
                 <Button className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 text-sm rounded-xl">
-                  Connect Directly
+                Connect Directly
                 </Button>
-              </div>
             </div>
 
-          </div>
+            </div>
         </div>
-      )}
+        )}
     </section>
   );
 };
