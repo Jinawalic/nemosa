@@ -1,15 +1,12 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { Navbar } from '@/components/Navbar';
-import { Hero } from '@/components/Hero';
-import { MemberScroll } from '@/components/MemberScroll';
-import { MissionVision } from '@/components/MissionVision';
-import { Projects } from '@/components/Projects';
-import { CTA } from '@/components/CTA';
+import { Members } from '@/components/Members';
 import { Footer } from '@/components/Footer';
 import { RegisterModal } from '@/components/RegisterModal';
+import { useState } from 'react';
 
-export default function Home() {
+export default function MembersPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
@@ -19,15 +16,11 @@ export default function Home() {
     <div className="min-h-screen bg-white font-sans antialiased selection:bg-emerald-200">
       <Navbar onRegisterClick={openModal} />
       <main>
-        <Hero onRegisterClick={openModal} />
-        <MemberScroll />
-        <MissionVision />
-        <Projects />
-        <CTA onRegisterClick={openModal} />
+        <Members />
       </main>
       <Footer />
 
-      {/* Shared Registration Modal Container */}
+      {/* Registration Modal */}
       <RegisterModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
