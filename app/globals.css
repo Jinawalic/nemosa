@@ -3,6 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-sans-stack: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono-stack: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
   --marquee-duration: 16s; /* Quick, snappy mobile movement */
 }
 
@@ -15,8 +17,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans-stack);
+  --font-mono: var(--font-mono-stack);
 
   --animate-marquee: marquee var(--marquee-duration) linear infinite;
 

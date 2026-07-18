@@ -1,34 +1,10 @@
-'use client';
-import React, { useState } from 'react';
-import { Navbar } from '@/components/Navbar';
-import { Hero } from '@/components/Hero';
-import { MemberScroll } from '@/components/MemberScroll';
-import { MissionVision } from '@/components/MissionVision';
-import { Projects } from '@/components/Projects';
-import { CTA } from '@/components/CTA';
-import { Footer } from '@/components/Footer';
-import { RegisterModal } from '@/components/RegisterModal';
+import { HomeClient } from '@/components/HomeClient';
+import { getMembers } from '@/lib/members';
 
-export default function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export const dynamic = 'force-dynamic';
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+export default async function Home() {
+  const members = await getMembers(8);
 
-  return (
-    <div className="min-h-screen bg-white font-sans antialiased selection:bg-emerald-200">
-      <Navbar onRegisterClick={openModal} />
-      <main>
-        <Hero onRegisterClick={openModal} />
-        <MemberScroll />
-        <MissionVision />
-        <Projects />
-        <CTA onRegisterClick={openModal} />
-      </main>
-      <Footer />
-
-      {/* Shared Registration Modal Container */}
-      <RegisterModal isOpen={isModalOpen} onClose={closeModal} />
-    </div>
-  );
+  return <HomeClient members={members} />;
 }

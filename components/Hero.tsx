@@ -49,7 +49,7 @@ export const Hero = ({ onRegisterClick }: { onRegisterClick: () => void }) => {
         {/* Right Image content - Corrected wrapping and explicit z-index layering */}
         <div className="relative hidden md:flex justify-center md:justify-end items-center w-full min-h-[450px] lg:min-h-[500px] z-10">
           <img
-            src="/images/hero-image.png"
+            src="/images/hero-bg.png"
             alt="Alumni celebrating at a reunion event"
             className="w-full max-w-md lg:max-w-lg h-auto object-contain relative z-20"
           />

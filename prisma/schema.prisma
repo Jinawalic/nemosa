@@ -1,0 +1,105 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Alumni/Member model
+model Member {
+  id               Int      @id @default(autoincrement())
+  name             String
+  nickname         String?
+  email            String   @unique
+  phone            String
+  profession       String
+  graduationYear   Int
+  dateOfBirth      DateTime
+  bio              String?  @db.Text
+  image            String?
+  isVerified       Boolean  @default(false)
+  
+  // Relations
+  projects         Project[] @relation("MemberProjects")
+  registrations    Registration[]
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  
+  @@index([graduationYear])
+  @@index([email])
+}
+
+// Project model
+model Project {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String   @db.Text
+  image       String?
+  status      String   @default("active") // active, completed, upcoming
+  
+  // Relations
+  members     Member[] @relation("MemberProjects")
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([status])
+}
+
+// Registration model
+model Registration {
+  id              Int      @id @default(autoincrement())
+  fullName        String
+  nickname        String?
+  email           String   @unique
+  phone           String
+  profession      String
+  dateOfBirth     DateTime
+  graduationYear  Int
+  bio             String?  @db.Text
+  image           String?
+  
+  // Relations
+  member          Member?  @relation(fields: [memberId], references: [id], onDelete: SetNull)
+  memberId        Int?
+  
+  status          String   @default("pending") // pending, approved, rejected
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@index([status])
+  @@index([email])
+}
+
+// Newsletter subscription
+model NewsletterSubscriber {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([email])
+}
+
+// Event model
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?  @db.Text
+  date        DateTime
+  location    String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([date])
+}

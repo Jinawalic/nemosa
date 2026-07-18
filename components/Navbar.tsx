@@ -38,7 +38,7 @@ export const Navbar = ({ onRegisterClick }: { onRegisterClick: () => void }) => 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           <button onClick={handleLogoClick} className="flex-shrink-0 flex items-center hover:opacity-80 transition-opacity">
-            <img src="images/logo.png" alt="NEMOSA Logo" className="h-10 w-10 mr-3" />
+            <img src="/images/logo.png" alt="NEMOSA Logo" className="h-10 w-10 mr-3" />
             <span className="text-2xl font-black text-emerald-700 tracking-wider">NEMOSA</span>
           </button>
           
