@@ -12,3 +12,14 @@ export type RegistrationView = {
   memberId: number | null;
   image: string | null;
 };
+
+export type BirthdayCelebrantView = RegistrationView & {
+  birthdayLabel: string;
+  daysUntilBirthday: number;
+  isToday: boolean;
+};
+
+export type BirthdayCelebrantsSectionData = {
+  celebrants: BirthdayCelebrantView[];
+  helperText: string;
+};
