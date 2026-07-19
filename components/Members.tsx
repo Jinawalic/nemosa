@@ -39,18 +39,6 @@ export const Members: React.FC<MembersProps> = ({ members }) => {
               <span className="text-4xl font-bold">{member.fullName.charAt(0)}</span>
             </div>
           )}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
-          {member.status === 'approved' ? (
-            <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm">
-              <BadgeCheck className="w-3 h-3" />
-              Approved
-            </span>
-          ) : (
-            <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full bg-amber-500 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm">
-              <CircleDashed className="w-3 h-3" />
-              {member.status}
-            </span>
-          )}
         </div>
 
         <div className="p-4 flex flex-col">
@@ -65,16 +53,6 @@ export const Members: React.FC<MembersProps> = ({ members }) => {
           <p className="text-xs md:text-sm text-gray-600 line-clamp-1 mb-3">
             {member.profession}
           </p>
-          <div className="flex items-center justify-between gap-2 text-xs text-gray-500 mb-4">
-            <span className="inline-flex items-center gap-1 truncate">
-              <Calendar className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
-              Class of {member.graduationYear}
-            </span>
-            <span className="inline-flex items-center gap-1 truncate">
-              <Phone className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
-              {member.phone}
-            </span>
-          </div>
 
           <Button
             onClick={() => handleViewProfile(member)}

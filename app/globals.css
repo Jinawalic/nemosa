@@ -5,12 +5,12 @@
   --foreground: #171717;
   --font-sans-stack: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-mono-stack: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-  --marquee-duration: 16s; /* Quick, snappy mobile movement */
+  --marquee-duration: 16s; /* Quick on mobile */
 }
 
 @media (min-width: 768px) {
   :root {
-    --marquee-duration: 28s; /* Calmed down for wider viewports */
+    --marquee-duration: 28s; /* Smoother on desktop */
   }
 }
 
@@ -20,8 +20,7 @@
   --font-sans: var(--font-sans-stack);
   --font-mono: var(--font-mono-stack);
 
-  --animate-marquee: marquee var(--marquee-duration) linear infinite;
-
+  /* Define the keyframes natively in the theme configuration */
   @keyframes marquee {
     from {
       transform: translateX(0%);
@@ -32,7 +31,8 @@
   }
 }
 
-/* Clear gap constraints on your active layout wrapper */
-.animate-marquee {
+/* Create a robust v4 utility class that safely parses your custom runtime variable */
+@utility animate-marquee {
+  animation: marquee var(--marquee-duration) linear infinite;
   min-width: max-content;
 }

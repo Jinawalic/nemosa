@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from './ui/Button';
-import { ArrowUpRight, Phone, BadgeCheck, CircleDashed } from 'lucide-react';
+import { ArrowUpRight, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { MemberDetailsModal } from './MemberDetailsModal';
 import type { RegistrationView } from '@/lib/registration-types';
@@ -14,77 +14,62 @@ interface MemberScrollProps {
 export const MemberScroll = ({ members }: MemberScrollProps) => {
   const [selectedMember, setSelectedMember] = useState<RegistrationView | null>(null);
 
+  // Filter unique members based on email
   const uniqueMembers = Array.from(
     new Map(members.map((member) => [member.email, member])).values(),
   );
-  const useMarquee = uniqueMembers.length >= 4;
-  const displayMembers = useMarquee ? uniqueMembers : uniqueMembers.slice(0, 4);
 
   const renderCard = (member: RegistrationView, key: string) => {
     const memberImage = member.image?.trim();
 
     return (
-    <div
-      key={key}
-      className="bg-white border border-gray-100 w-64 rounded-xl overflow-hidden flex-shrink-0 flex flex-col group/card transition-all duration-300"
-    >
-      <div className="relative w-full h-48 bg-emerald-900 overflow-hidden">
-        {memberImage ? (
-          <img
-            src={memberImage}
-            alt={member.fullName}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-700 text-white">
-            <span className="text-4xl font-bold">{member.fullName.charAt(0)}</span>
-          </div>
-        )}
-        <span className="absolute top-3 left-3 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-md">
-          Class of {member.graduationYear}
-        </span>
-        {member.status === 'approved' ? (
-          <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-md bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-emerald-700">
-            <BadgeCheck className="w-3 h-3" />
-            Approved
-          </span>
-        ) : (
-          <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-md bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-amber-700">
-            <CircleDashed className="w-3 h-3" />
-            {member.status}
-          </span>
-        )}
-        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 pt-8 flex items-center gap-1.5 text-white">
-          <span className="text-xs font-medium tracking-wide truncate">{member.profession}</span>
-        </div>
-      </div>
-
-      <div className="p-4 flex flex-col flex-1 justify-between whitespace-normal text-left">
-        <div>
-          <h4 className="font-bold text-gray-900 text-base tracking-tight truncate mb-2">
-            {member.fullName}
-          </h4>
-          {member.nickname && (
-            <p className="text-xs text-emerald-600 font-semibold mb-3 truncate">
-              "{member.nickname}"
-            </p>
-          )}
-          <div className="flex items-center justify-between gap-2 text-xs border-t border-gray-50 pt-3">
-            <div className="flex items-center gap-1 text-gray-500 truncate">
-              <Phone className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
-              <span className="truncate font-medium">{member.phone}</span>
+      <div
+        key={key}
+        className="bg-white border border-gray-100 w-64 rounded-xl overflow-hidden flex-shrink-0 flex flex-col group/card transition-all duration-300 shadow-sm"
+      >
+        <div className="relative w-full h-48 bg-emerald-900 overflow-hidden">
+          {memberImage ? (
+            <img
+              src={memberImage}
+              alt={member.fullName}
+              className="w-full h-full object-contain transition-transform duration-500 group-hover/card:scale-105"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-700 text-white">
+              <span className="text-4xl font-bold">{member.fullName.charAt(0)}</span>
             </div>
-            <button
-              onClick={() => setSelectedMember(member)}
-              className="flex items-center gap-1 font-bold text-emerald-600 hover:text-emerald-700 transition-colors group/btn cursor-pointer"
-            >
-              <span>View Profile</span>
-              <ArrowUpRight className="w-3.5 h-3.5 transform transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-            </button>
+          )}
+          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 pt-8 flex items-center gap-1.5 text-white">
+            <span className="text-xs font-medium tracking-wide truncate">{member.profession}</span>
+          </div>
+        </div>
+
+        <div className="p-4 flex flex-col flex-1 justify-between whitespace-normal text-left">
+          <div>
+            <h4 className="font-bold text-gray-900 text-base tracking-tight truncate mb-2">
+              {member.fullName}
+            </h4>
+            {member.nickname && (
+              <p className="text-xs text-emerald-600 font-semibold mb-3 truncate">
+                "{member.nickname}"
+              </p>
+            )}
+            <div className="flex items-center justify-between gap-2 text-xs border-t border-gray-50 pt-3">
+              <div className="flex items-center gap-1 text-gray-500 truncate">
+                <Phone className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
+                <span className="truncate font-medium">{member.phone}</span>
+              </div>
+              <button
+                onClick={() => setSelectedMember(member)}
+                className="flex items-center gap-1 font-bold text-emerald-600 hover:text-emerald-700 transition-colors group/btn cursor-pointer"
+              >
+                <span>View Profile</span>
+                <ArrowUpRight className="w-3.5 h-3.5 transform transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     );
   };
 
@@ -95,27 +80,21 @@ export const MemberScroll = ({ members }: MemberScrollProps) => {
         <p className="text-gray-500 mt-2">Meet the diverse network of alumni making waves across fields.</p>
       </div>
 
-      {displayMembers.length > 0 ? (
-        useMarquee ? (
-          <div className="relative w-full overflow-hidden py-4 flex gap-6 group">
-            <div className="flex gap-6 whitespace-nowrap animate-marquee flex-shrink-0 group-hover:[animation-play-state:paused]">
-              {displayMembers.map((member, idx) => renderCard(member, `track1-${idx}`))}
-            </div>
+      {uniqueMembers.length > 0 ? (
+        /* The infinite horizontal marquee container */
+        <div className="relative w-full overflow-hidden py-4 flex gap-6 group">
+          
+          {/* Track 1 */}
+          <div className="flex gap-6 whitespace-nowrap animate-marquee flex-shrink-0 group-hover:[animation-play-state:paused]">
+            {uniqueMembers.map((member, idx) => renderCard(member, `track1-${idx}`))}
+          </div>
 
-            <div
-              className="flex gap-6 whitespace-nowrap animate-marquee flex-shrink-0 group-hover:[animation-play-state:paused]"
-              aria-hidden="true"
-            >
-              {displayMembers.map((member, idx) => renderCard(member, `track2-${idx}`))}
-            </div>
+          {/* Track 2 (Visual Twin copy for loop continuity) */}
+          <div className="flex gap-6 whitespace-nowrap animate-marquee flex-shrink-0 group-hover:[animation-play-state:paused]" aria-hidden="true">
+            {uniqueMembers.map((member, idx) => renderCard(member, `track2-${idx}`))}
           </div>
-        ) : (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-wrap justify-center gap-6 py-4">
-              {displayMembers.map((member, idx) => renderCard(member, `single-${idx}`))}
-            </div>
-          </div>
-        )
+
+        </div>
       ) : (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="rounded-2xl border border-dashed border-gray-200 bg-white px-6 py-16 text-center">

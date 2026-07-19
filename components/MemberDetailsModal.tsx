@@ -4,6 +4,7 @@ import React from 'react';
 import { Button } from './ui/Button';
 import { Cake, Calendar, Mail, Phone, X, Briefcase, CircleDashed, BadgeCheck } from 'lucide-react';
 import type { RegistrationView } from '@/lib/registration-types';
+import Link from 'next/link';
 
 interface MemberDetailsModalProps {
   member: RegistrationView;
@@ -22,7 +23,7 @@ export const MemberDetailsModal: React.FC<MemberDetailsModalProps> = ({
     ? new Date(member.dateOfBirth).toLocaleDateString('en-US', {
         month: 'long',
         day: 'numeric',
-        year: 'numeric',
+        // year: 'numeric',
       })
     : 'Not provided';
 
@@ -40,7 +41,7 @@ export const MemberDetailsModal: React.FC<MemberDetailsModalProps> = ({
             <X className="w-6 h-6" />
           </button>
 
-          <div className="absolute left-6 -bottom-14 md:-bottom-16 z-10">
+          <div className="absolute left-6 -bottom-14 md:-bottom-16 z-10 mt-5">
             {profileImage ? (
               <img
                 src={profileImage}
@@ -57,31 +58,20 @@ export const MemberDetailsModal: React.FC<MemberDetailsModalProps> = ({
 
         <div className="pt-16 md:pt-20 pb-6 overflow-y-auto flex-1">
           <div className="px-6">
-            <div className="mb-6">
+            <div className="mb-2">
               <div className="flex flex-wrap items-center gap-2 mb-1">
-                <h2 className="text-2xl md:text-3xl font-bold text-emerald-950">
+                <h2 className="text-xl md:text-2xl font-bold text-emerald-950">
                   {member.fullName}
                 </h2>
-                {member.status === 'approved' ? (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                    <BadgeCheck className="w-3.5 h-3.5" />
-                    Approved
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
-                    <CircleDashed className="w-3.5 h-3.5" />
-                    {statusLabel}
-                  </span>
-                )}
-              </div>
-              {member.nickname && (
+                {member.nickname && (
                 <p className="text-emerald-600 font-semibold italic text-sm">
-                  Known as "{member.nickname}"
+                  ({member.nickname})
                 </p>
               )}
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 pb-6 border-b border-gray-200">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2 pb-6 border-b border-gray-200">
               <div className="flex items-start gap-3">
                 <Briefcase className="w-5 h-5 text-emerald-600 mt-1 flex-shrink-0" />
                 <div>
@@ -151,8 +141,16 @@ export const MemberDetailsModal: React.FC<MemberDetailsModalProps> = ({
           >
             Close
           </button>
-          <Button className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 text-sm rounded-xl">
-            Connect Directly
+          
+          {/* Option A: If member.phone already includes a country code (e.g., 23480...) */}
+          <Button className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 text-sm rounded-full">
+            <a 
+              href={`https://wa.me/${member.phone.replace(/\D/g, '')}`} 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              WhatsApp
+            </a>
           </Button>
         </div>
       </div>
