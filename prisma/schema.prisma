@@ -10,6 +10,15 @@ datasource db {
   provider = "postgresql"
 }
 
+model Admin {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
 // Alumni/Member model
 model Member {
   id               Int      @id @default(autoincrement())
