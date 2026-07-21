@@ -1,4 +1,4 @@
-import 'server-only';
+import "server-only";
 
 import { prisma } from '@/lib/prisma';
 import type { RegistrationView } from '@/lib/registration-types';
@@ -12,6 +12,18 @@ export type AdminDashboardMetrics = {
 export type AdminDashboardData = {
   members: RegistrationView[];
   metrics: AdminDashboardMetrics;
+};
+
+export type RegistrationUpdatePayload = {
+  fullName: string;
+  nickname: string | null;
+  email: string;
+  phone: string;
+  profession: string;
+  graduationYear: number;
+  dateOfBirth: Date;
+  bio: string | null;
+  image: string | null;
 };
 
 const BIRTHDAY_TIME_ZONE = 'Africa/Lagos';
@@ -46,6 +58,15 @@ function getMonthInLagos(date: Date) {
   );
 }
 
+function normalizeOptionalText(value: string | null | undefined) {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
 export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const [registrations, totalProjects] = await Promise.all([
     prisma.registration.findMany({
@@ -68,6 +89,25 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       birthdaysThisMonth,
     },
   };
+}
+
+export async function updateRegistrationById(id: number, payload: RegistrationUpdatePayload) {
+  const updatedRegistration = await prisma.registration.update({
+    where: { id },
+    data: {
+      fullName: payload.fullName.trim(),
+      nickname: normalizeOptionalText(payload.nickname),
+      email: payload.email.trim().toLowerCase(),
+      phone: payload.phone.trim(),
+      profession: payload.profession.trim(),
+      graduationYear: payload.graduationYear,
+      dateOfBirth: payload.dateOfBirth,
+      bio: normalizeOptionalText(payload.bio),
+      image: normalizeOptionalText(payload.image),
+    },
+  });
+
+  return serializeRegistration(updatedRegistration);
 }
 
 export async function deleteRegistrationById(id: number) {

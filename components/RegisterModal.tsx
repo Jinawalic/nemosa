@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from './ui/Button';
 import toast from 'react-hot-toast';
-import { Loader } from 'lucide-react';
+import { Loader, UploadCloud, FileImage } from 'lucide-react';
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -280,10 +280,13 @@ export const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose })
             />
           </div>
 
+          {/* Styled Clean & Professional File Input Box */}
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Upload Passport (Max 5MB)</label>
-            <label className="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg text-center cursor-pointer hover:border-emerald-500 hover:bg-emerald-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              style={isLoading ? { pointerEvents: 'none', opacity: 0.5 } : {}}>
+            <label 
+              className="group flex flex-col items-center justify-center w-full px-4 py-6 border-2 border-dashed border-gray-200 hover:border-emerald-500 bg-gray-50 hover:bg-emerald-50/30 rounded-xl cursor-pointer transition-all duration-200"
+              style={isLoading ? { pointerEvents: 'none', opacity: 0.5 } : {}}
+            >
               <input
                 type="file"
                 name="passport"
@@ -292,13 +295,22 @@ export const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose })
                 accept="image/jpeg,image/png,image/webp"
                 className="hidden"
               />
-              <div className="text-sm">
+              <div className="flex flex-col items-center text-center">
                 {fileName ? (
-                  <p className="text-emerald-600 font-medium">{fileName}</p>
+                  <>
+                    <div className="p-3 bg-emerald-100 rounded-full text-emerald-600 mb-2">
+                      <FileImage className="w-6 h-6" />
+                    </div>
+                    <p className="text-sm text-emerald-700 font-medium max-w-[280px] truncate">{fileName}</p>
+                    <p className="text-xs text-emerald-500 mt-1">Click to replace file</p>
+                  </>
                 ) : (
                   <>
-                    <p className="text-gray-600">Drag and drop or click to select</p>
-                    <p className="text-xs text-gray-400">JPEG, PNG, or WebP (Max 5MB)</p>
+                    <div className="p-3 bg-gray-100 group-hover:bg-emerald-100 rounded-full text-gray-400 group-hover:text-emerald-600 mb-2 transition-colors">
+                      <UploadCloud className="w-6 h-6" />
+                    </div>
+                    <p className="text-sm text-gray-600 font-medium">Click to select or drag & drop</p>
+                    <p className="text-xs text-gray-400 mt-1">JPEG, PNG, or WebP up to 5MB</p>
                   </>
                 )}
               </div>

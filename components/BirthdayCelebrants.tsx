@@ -15,7 +15,8 @@ export const BirthdayCelebrants = ({ celebrants, helperText }: BirthdayCelebrant
   const hasBirthdayToday = celebrants.some((member) => member.isToday);
 
   const renderCard = (member: BirthdayCelebrantView, key: string) => {
-    const showImage = member.isToday && Boolean(member.image?.trim());
+    const imageSrc = member.image?.trim();
+    const hasImage = Boolean(imageSrc);
     const celebratoryText = member.isToday
       ? 'Celebrating today'
       : `Celebrating in ${member.daysUntilBirthday} day${member.daysUntilBirthday === 1 ? '' : 's'}`;
@@ -23,53 +24,58 @@ export const BirthdayCelebrants = ({ celebrants, helperText }: BirthdayCelebrant
     return (
       <div
         key={key}
-        className={`overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 ${
-          showImage ? 'flex flex-col' : 'p-5'
+        className={`overflow-hidden rounded-2xl border transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between bg-white ${
+          member.isToday 
+            ? 'border-rose-200 ring-2 ring-rose-500/10 shadow-md' 
+            : 'border-amber-100 shadow-sm'
         }`}
       >
-        {showImage ? (
-          <>
-            <div className="relative aspect-square overflow-hidden bg-emerald-900">
-              {member.image?.trim() ? (
-                <img
-                  src={member.image}
-                  alt={member.fullName}
-                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-emerald-900 via-emerald-800 to-amber-700 text-white">
-                  <span className="text-4xl font-bold">{member.fullName.charAt(0)}</span>
-                </div>
-              )}
+        <div>
+          {/* Picture / Placeholder Area */}
+          <div className="relative aspect-square overflow-hidden bg-gray-100">
+            {hasImage ? (
+              <img
+                src={imageSrc}
+                alt={member.fullName}
+                className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+              />
+            ) : (
+              <div className={`flex h-full w-full items-center justify-center bg-gradient-to-br text-white ${
+                member.isToday 
+                  ? 'from-rose-600 via-emerald-800 to-amber-600' 
+                  : 'from-emerald-900 via-emerald-800 to-amber-700'
+              }`}>
+                <span className="text-4xl font-bold">{member.fullName.charAt(0)}</span>
+              </div>
+            )}
 
-              <div className="absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-800 shadow-sm backdrop-blur">
-                <Cake className="h-3.5 w-3.5 text-amber-500" />
+            {/* Birthday Badge Overlay */}
+            {member.isToday && (
+              <div className="absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white shadow-sm animate-pulse">
+                <Cake className="h-3.5 w-3.5 text-amber-300 fill-amber-300" />
                 <span>Today</span>
               </div>
-            </div>
+            )}
+          </div>
 
-            <div className="p-5">
-              <h4 className="truncate text-lg font-bold tracking-tight text-gray-900">
-                {member.fullName}
-              </h4>
-              <div className="mt-4 flex items-center gap-2 text-sm text-gray-600">
-                <CalendarDays className="h-4 w-4 flex-shrink-0 text-amber-500" />
-                <span className="truncate font-medium">{member.birthdayLabel}</span>
-              </div>
-              <p className="mt-3 text-sm font-semibold text-rose-600">{celebratoryText}</p>
-            </div>
-          </>
-        ) : (
-          <>
+          {/* Details Area */}
+          <div className="p-5">
             <h4 className="truncate text-lg font-bold tracking-tight text-gray-900">
               {member.fullName}
             </h4>
-            <div className="mt-4 flex items-center gap-2 text-sm text-gray-600">
-              <CalendarDays className="h-4 w-4 flex-shrink-0 text-amber-500" />
+            <div className="mt-2 flex items-center gap-2 text-sm text-gray-600">
+              <CalendarDays className={`h-4 w-4 flex-shrink-0 ${member.isToday ? 'text-rose-500' : 'text-amber-500'}`} />
               <span className="truncate font-medium">{member.birthdayLabel}</span>
             </div>
-          </>
-        )}
+          </div>
+        </div>
+
+        {/* Celebratory Text Bottom Strip */}
+        <div className="px-5 pb-5 pt-0">
+          <p className={`text-sm font-semibold ${member.isToday ? 'text-rose-600 animate-bounce-subtle' : 'text-emerald-700'}`}>
+            {celebratoryText}
+          </p>
+        </div>
       </div>
     );
   };
@@ -77,7 +83,7 @@ export const BirthdayCelebrants = ({ celebrants, helperText }: BirthdayCelebrant
   return (
     <section
       id="birthday-celebrants"
-      className="overflow-hidden border-y border-amber-100 bg-gradient-to-b from-amber-50 via-white to-emerald-50 py-10"
+      className="overflow-hidden bg-gradient-to-b from-amber-50 via-white to-emerald-50 py-10"
     >
       <div className="mx-auto mb-8 max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         <h2 className="mt-4 text-3xl font-bold text-gray-900">
