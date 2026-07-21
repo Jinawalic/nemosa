@@ -138,7 +138,7 @@ export const Members: React.FC<MembersProps> = ({ members, onUpdateMember }) => 
         <div className="p-4 pt-0 grid grid-cols-4 gap-2">
           <Button
             onClick={() => handleViewProfile(member)}
-            className="col-span-2 text-xs md:text-sm bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-medium transition-colors"
+            className="col-span-2 flex items-center justify-center text-xs md:text-sm bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-medium transition-colors"
           >
             View
           </Button>
