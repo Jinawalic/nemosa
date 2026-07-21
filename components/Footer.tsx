@@ -22,7 +22,7 @@ export const Footer = () => {
           </div>
         </div>
         <div className="border-t border-emerald-800 pt-6 text-center text-xs text-emerald-100/50">
-          &copy; {new Date().getFullYear()} NEMOSA Old Students Association. All rights reserved.
+          &copy; {new Date().getFullYear()} NEM Old Students Association. All rights reserved.
         </div>
       </div>
     </footer>
